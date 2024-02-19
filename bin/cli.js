@@ -118,8 +118,8 @@ if (program.includeNpm) {
 	config.includeNpm = program.includeNpm;
 }
 
-if (program.noDomainCrossing !== undefined) {
-	config.noDomainCrossing = program.noDomainCrossing;
+if (program.domainCrossing !== undefined) {
+	config.domainCrossing = program.domainCrossing;
 }
 
 if (!program.color) {
