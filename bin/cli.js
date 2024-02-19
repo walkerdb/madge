@@ -34,6 +34,7 @@ program
 	.option('--ts-config <file>', 'path to typescript config')
 	.option('--include-npm', 'include shallow NPM modules', false)
 	.option('--no-color', 'disable color in output and image', false)
+	.option('--no-domain-crossing', 'do not follow import trees across domains', false)
 	.option('--no-spinner', 'disable progress spinner', false)
 	.option('--no-count', 'disable circular dependencies counting', false)
 	.option('--stdin', 'read predefined tree from STDIN', false)
@@ -115,6 +116,10 @@ if (program.tsConfig) {
 
 if (program.includeNpm) {
 	config.includeNpm = program.includeNpm;
+}
+
+if (program.noDomainCrossing !== undefined) {
+	config.noDomainCrossing = program.noDomainCrossing;
 }
 
 if (!program.color) {
