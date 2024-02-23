@@ -37,6 +37,7 @@ program
 	.option('--no-domain-crossing', 'do not follow import trees across domains', false)
 	.option('--no-spinner', 'disable progress spinner', false)
 	.option('--no-count', 'disable circular dependencies counting', false)
+	.option('--only-counts', 'only output the node count and nothing else', false)
 	.option('--stdin', 'read predefined tree from STDIN', false)
 	.option('--warning', 'show warnings about skipped files', false)
 	.option('--debug', 'turn on debug output', false)
@@ -134,6 +135,10 @@ if (program.rankdir) {
 	config.rankdir = program.rankdir;
 }
 
+if (program.onlyCounts) {
+	config.onlyCounts = program.onlyCounts;
+}
+
 function dependencyFilter() {
 	let prevFile;
 
@@ -182,7 +187,13 @@ new Promise((resolve, reject) => {
 	.then((res) => {
 		if (!program.json && !program.dot) {
 			spinner.stop();
-			output.getResultSummary(res, startTime);
+			if (program.onlyCounts) {
+				const fileCount = Object.keys(res.obj()).length;
+				console.log(fileCount);
+				process.exit(0);
+			} else {
+				output.getResultSummary(res, startTime);
+			}
 		}
 
 		const result = createOutputFromOptions(program, res);
